@@ -1,1 +1,1 @@
-console.js("d");
+console.js(" hello d");
