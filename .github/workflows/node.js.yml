@@ -51,17 +51,17 @@ jobs:
     - run: echo '${{ needs.changes.outputs.names }}'
     - name: Checking a folder
       run: |
-        echo "Hello a!"
+        echo ${"Hello a!"}
       if: ${{ needs.changes.outputs.names == '["a"]' }}
     - name: Checking b folder
       run: |
-               echo "Hello b!"
+               echo ${"Hello b!"}
       if: ${{ needs.changes.outputs.names == '["b"]' }}
     - name: Checking c folder
       run: |
-        echo "Hello c!"
+        echo ${"Hello c!"}
       if: ${{ needs.changes.outputs.names == '["c"]' }}
     - name: Checking d folder
       run: |
-           echo "Hello d!"
+           echo ${"Hello d!"}
       if: ${{ needs.changes.outputs.names == '["d"]' }}
