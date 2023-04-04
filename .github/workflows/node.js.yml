@@ -1,0 +1,67 @@
+name: Node.js CI
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - 'a/**'
+      - 'b/**'
+      - 'c/**'
+      - 'd/**'
+jobs:
+  changes:
+      name: Detect Changes in folder
+      runs-on: ubuntu-latest
+      outputs:
+        names: ${{ steps.filter.outputs.changes }}
+      steps:
+      - uses: actions/checkout@v2
+      - name: Detect Changes
+        uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          filters: |
+            a:
+              - 'a/**'
+            b:
+              - 'b/**'
+            c:
+              - 'c/**'
+            d:
+              - 'd/**'
+  build:
+    needs: changes
+    name: ${{matrix.name}} - ${{ matrix.environment }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    - run: npm ci
+    - run: npm install
+
+    - run: echo '${{ needs.changes.outputs.names }}'
+    - name: Checking a folder
+      run: |
+        echo "Hello a!"
+      if: ${{ needs.changes.outputs.names == '["a"]' }}
+    - name: Checking b folder
+      run: |
+               echo "Hello b!"
+      if: ${{ needs.changes.outputs.names == '["b"]' }}
+    - name: Checking c folder
+      run: |
+        echo "Hello c!"
+      if: ${{ needs.changes.outputs.names == '["c"]' }}
+    - name: Checking d folder
+      run: |
+           echo "Hello d!"
+      if: ${{ needs.changes.outputs.names == '["d"]' }}
