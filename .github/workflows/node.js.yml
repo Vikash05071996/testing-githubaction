@@ -4,14 +4,16 @@ on:
   push:
     branches: [ "main" ]
     paths:
-      - 'a.js'
-      - 'b.js'
-      - 'c.js'
-      - 'd.js'
+      - 'Logs.js'
+      - 'automate.js'
+      - 'dailyLogs.js'
+      - 'hourlyLogs.js'
+      - 'index.js'
+      - 'stats.js'
 jobs:
   changes:
       name: Detect Changes in folder
-      runs-on: ubuntu-latest
+      runs-on: self-hosted
       outputs:
         names: ${{ steps.filter.outputs.changes }}
       steps:
@@ -21,18 +23,22 @@ jobs:
         id: filter
         with:
           filters: |
-            a:
-              - 'a.js'
-            b:
-              - 'b.js'
-            c:
-              - 'c.js'
-            d:
-              - 'd.js'
+            Logs:
+              - 'Logs.js'
+            automate:
+              - 'automate.js'
+            dailyLogs:
+              - 'dailyLogs.js'
+            hourlyLogs:
+              - 'hourlyLogs.js'
+            index:
+            -   'index.js'
+            stats:
+            -   'stats.js'
   build:
     needs: changes
     name: ${{matrix.name}} - ${{ matrix.environment }}
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     strategy:
       matrix:
         node-version: [18.x]
@@ -47,21 +53,40 @@ jobs:
         cache: 'npm'
     - run: npm ci
     - run: npm install
-
+    - run: echo '${{ secrets.ENV_FILE }}' > .env
     - run: echo '${{ needs.changes.outputs.names }}'
-    - name: Checking a folder
+    - name: Checking Logs file
       run: |
-        echo "Hello a!"
-      if: ${{ needs.changes.outputs.names == '["a"]' }}
-    - name: Checking b folder
+        pm2 stop Logs.js 
+        pm2 start Logs.js
+      if: ${{ needs.changes.outputs.names == '["Logs.js"]' }}
+    - name: Checking automate.js file
       run: |
-               echo "Hello b!"
-      if: ${{ needs.changes.outputs.names == '["b"]' }}
-    - name: Checking c folder
+        pm2 stop automate.js
+        pm2 start automate.js
+      if: ${{ needs.changes.outputs.names == '["automate.js"]' }}
+    - name: Checking dailyLogs file
       run: |
-        echo "Hello c!"
-      if: ${{ needs.changes.outputs.names == '["c"]' }}
-    - name: Checking d folder
+        pm2 stop dailyLogs.js
+        pm2 start dailyLogs.js
+      if: ${{ needs.changes.outputs.names == '["dailyLogs.js"]' }}
+    - name: Checking hourlyLogs file
       run: |
-           echo "Hello d!"
-      if: ${{ needs.changes.outputs.names == '["d"]' }}
+        pm2 stop hourlyLogs.js
+        pm2 start hourlyLogs.js
+      if: ${{ needs.changes.outputs.names == '["hourlyLogs.js"]' }}
+    - name: Checking index file
+      run: |
+        pm2 stop index.js
+        pm2 start index.js
+      if: ${{ needs.changes.outputs.names == '["index.js"]' }}
+    - name: Checking stats file
+      run: |
+        pm2 stop stats.js
+        pm2 start stats.js
+      if: ${{ needs.changes.outputs.names == '["stats.js"]' }}
+    - name: Checking Logs1 file
+      run: |
+        pm2 stop Logs1.js 
+        pm2 start Logs1.js
+      if: ${{ needs.changes.outputs.names == '["Logs1.js"]' }}
