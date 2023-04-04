@@ -4,10 +4,10 @@ on:
   push:
     branches: [ "main" ]
     paths:
-      - 'a/**'
-      - 'b/**'
-      - 'c/**'
-      - 'd/**'
+      - 'a.js'
+      - 'b.js'
+      - 'c.js'
+      - 'd.js'
 jobs:
   changes:
       name: Detect Changes in folder
