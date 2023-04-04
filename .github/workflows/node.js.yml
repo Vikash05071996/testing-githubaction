@@ -22,13 +22,13 @@ jobs:
         with:
           filters: |
             a:
-              - 'a/**'
+              - 'a.js'
             b:
-              - 'b/**'
+              - 'b.js'
             c:
-              - 'c/**'
+              - 'c.js'
             d:
-              - 'd/**'
+              - 'd.js'
   build:
     needs: changes
     name: ${{matrix.name}} - ${{ matrix.environment }}
