@@ -59,34 +59,34 @@ jobs:
       run: |
         pm2 stop Logs.js 
         pm2 start Logs.js
-      if: ${{ needs.changes.outputs.names == '["Logs.js"]' }}
+      if: ${{ needs.changes.outputs.names == '["Logs"]' }}
     - name: Checking automate.js file
       run: |
         pm2 stop automate.js
         pm2 start automate.js
-      if: ${{ needs.changes.outputs.names == '["automate.js"]' }}
+      if: ${{ needs.changes.outputs.names == '["automate"]' }}
     - name: Checking dailyLogs file
       run: |
         pm2 stop dailyLogs.js
         pm2 start dailyLogs.js
-      if: ${{ needs.changes.outputs.names == '["dailyLogs.js"]' }}
+      if: ${{ needs.changes.outputs.names == '["dailyLogs"]' }}
     - name: Checking hourlyLogs file
       run: |
         pm2 stop hourlyLogs.js
         pm2 start hourlyLogs.js
-      if: ${{ needs.changes.outputs.names == '["hourlyLogs.js"]' }}
+      if: ${{ needs.changes.outputs.names == '["hourlyLogs"]' }}
     - name: Checking index file
       run: |
         pm2 stop index.js
         pm2 start index.js
-      if: ${{ needs.changes.outputs.names == '["index.js"]' }}
+      if: ${{ needs.changes.outputs.names == '["index"]' }}
     - name: Checking stats file
       run: |
         pm2 stop stats.js
         pm2 start stats.js
-      if: ${{ needs.changes.outputs.names == '["stats.js"]' }}
+      if: ${{ needs.changes.outputs.names == '["stats"]' }}
     - name: Checking Logs1 file
       run: |
         pm2 stop Logs1.js 
         pm2 start Logs1.js
-      if: ${{ needs.changes.outputs.names == '["Logs1.js"]' }}
+      if: ${{ needs.changes.outputs.names == '["Logs1"]' }}
